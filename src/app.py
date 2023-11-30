@@ -11,7 +11,7 @@ def booking():
     if request.method == 'POST':
         # Handle form submission and booking logic
         # Example: booking_data = request.form['booking_data']
-        return render_template('booking.html', booking_data=booking_data)
+        return render_template('booking.html')
     return render_template('booking.html')
 
 if __name__ == '__main__':

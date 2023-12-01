@@ -3,58 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Booking</title>
+    <title>Hotel Booking</title>
     <style>
         body {
-            background-image: url('your-background-image.jpg'); /* Replace with your image file path */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            color: white; /* Adjust text color for better visibility on the background */
-            margin: 0;
-            font-family: 'Arial', sans-serif; /* Change font if needed */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
         }
 
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 50px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-        }
-
-        p {
-            margin-bottom: 30px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 1.2em;
-            text-decoration: none;
-            background-color: #3498db; /* Change to your desired color */
-            color: white;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #2980b9; /* Change to a darker shade for hover effect */
+        h2 {
+            color: #007BFF;
         }
 
         form {
-            /* Add form-specific styles */
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .hotel-list {
+            display: none;
+        }
+
+        .hotel {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hotel img {
+         max-width: 40%;
+         height: 25%;
+        }
+
+
+        .booking-form {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Travel Booking System</h1>
-        <p><a href="{{ url_for('booking') }}" class="btn">Book a Trip</a></p>
+
+    <h2>Hotel Booking</h2>
+
+    <!-- Step 1: Select Destination and Date -->
+    <form id="search-form">
+        <label for="destination">Destination:</label>
+        <select id="destination" name="destination" required>
+            <option value="paris">Paris</option>
+            <option value="new-york">New York</option>
+            <option value="tokyo">Tokyo</option>
+            <!-- Add more options as needed -->
+        </select>
+
+        <label for="check-in">Check-in Date:</label>
+        <input type="date" id="check-in" name="check-in" required>
+
+        <button type="button" onclick="searchHotels()">Search Hotels</button>
+    </form>
+
+    <!-- Step 2: Display Hotel List -->
+    <div id="hotel-list" class="hotel-list"></div>
+
+    <!-- Step 3: Booking Form -->
+    <div id="booking-form" class="booking-form">
+        <h2>Booking Details</h2>
+        <form>
+            <!-- Include booking form fields here -->
+            <label for="guest-name">Guest Name:</label>
+            <input type="text" id="guest-name" name="guest-name" required>
+
+            <label for="guest-email">Email:</label>
+            <input type="email" id="guest-email" name="guest-email" required>
+
+            <button type="submit">Book Now</button>
+        </form>
     </div>
+
+    <script>
+        function searchHotels() {
+            // Simulate fetching hotel data from the server
+            const destination = document.getElementById('destination').value;
+            const checkInDate = document.getElementById('check-in').value;
+
+            // Replace this with actual data fetched from the server
+            const hotelList = [
+                { name: 'Hotel A', price: '$100 per night', image: 'C:/Users/91832/Desktop/travel_booking/travel_booking/src/templates/static/hotel1.jpg' },
+                { name: 'Hotel B', price: '$120 per night', image: 'C:/Users/91832/Desktop/travel_booking/travel_booking/src/templates/static/hotel2.jpg' },
+                { name: 'Hotel C', price: '$150 per night', image: 'C:/Users/91832/Desktop/travel_booking/travel_booking/src/templates/static/hotel3.jpg' },
+            ];
+
+            // Display the hotel list
+            displayHotelList(hotelList);
+        }
+
+        function displayHotelList(hotelList) {
+            const hotelListContainer = document.getElementById('hotel-list');
+            hotelListContainer.innerHTML = '';
+
+            hotelList.forEach(hotel => {
+                const hotelDiv = document.createElement('div');
+                hotelDiv.className = 'hotel';
+
+                const image = document.createElement('img');
+                image.src = hotel.image;
+                image.alt = hotel.name;
+
+                const hotelName = document.createElement('h3');
+                hotelName.textContent = hotel.name;
+
+                const price = document.createElement('p');
+                price.textContent = `Price: ${hotel.price}`;
+
+                const bookButton = document.createElement('button');
+                bookButton.textContent = 'Book Now';
+                bookButton.onclick = function () {
+                    showBookingForm();
+                };
+
+                hotelDiv.appendChild(image);
+                hotelDiv.appendChild(hotelName);
+                hotelDiv.appendChild(price);
+                hotelDiv.appendChild(bookButton);
+
+                hotelListContainer.appendChild(hotelDiv);
+            });
+
+            // Show the hotel list
+            hotelListContainer.style.display = 'block';
+        }
+
+        function showBookingForm() {
+            // Show the booking form
+            document.getElementById('booking-form').style.display = 'block';
+        }
+    </script>
+
 </body>
 </html>
